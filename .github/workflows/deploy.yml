@@ -5,8 +5,7 @@ push:
 branches: ["main"]
 
 env:
-image1: ghcr,io/$
-{{github.reposity_owner }}/go-app
+image1: ghcr,io/${{github.reposity_owner }}/go-app
 
 jobs:
  build-and -test:
