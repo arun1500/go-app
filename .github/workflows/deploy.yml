@@ -30,3 +30,4 @@ jobs:
           image-ref: "${{ env.image1 }}:latest"
           severity: "CRITICAL,HIGH"
           exit-code: "1"
+          mode: client
