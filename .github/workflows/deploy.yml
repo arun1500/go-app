@@ -21,7 +21,6 @@ jobs:
 
       - name: Run go vet
         run: go vet ./...
-        working-directory: ./
 
       - name: Build docker image
         run: docker build -t $image1:latest .
