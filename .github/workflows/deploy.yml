@@ -13,39 +13,21 @@ jobs:
 
     permissions:
       contents: read
-      packages: read  # needed to pull GHCR images
+      packages: write
 
     steps:
-      # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2️⃣ Install Go and run go vet
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - name: Build docker image
+        run: docker build -t $image1:latest .
+
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.28.0
         with:
-          go-version: 1.26
-
-      - name: Run go vet
-        run: go vet ./...
-
-      # 3️⃣ Log in to GitHub Container Registry (needed for Trivy to pull the image)
-      - name: Log in to GHCR
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # 4️⃣ Build Docker image
-      - name: Build Docker image
-        run: docker build -t ${{ env.image1 }}:latest .
-
-      # 5️⃣ Scan Docker image with Trivy
-      - name: Scan Docker image
-        uses: aquasecurity/trivy-action@0.21.1
-        with:
-          image-ref: ${{ env.image1 }}:latest
+          image-ref: "${{ env.image1 }}:latest"
+          severity: "CRITICAL,HIGH"
+          exit-code: "1"
           severity: "CRITICAL,HIGH"
           exit-code: "1"
           format: table
