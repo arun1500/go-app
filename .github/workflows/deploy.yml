@@ -19,9 +19,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: unit test
-        run: |
-          go test ./...
+      - name: build and unit test
+        run: go build -o app
+             go test ./...
 
       - name: run go vet
         run: go vet ./...
