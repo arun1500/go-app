@@ -22,10 +22,13 @@ jobs:
       - name: build and unit test
         run: go build -o app && go test ./...
 
-      - name: static test
-        run: |
-         go vet ./...
-         golangci-lint run
+      - name: go vet
+        run: go vet ./...
+
+      - name: run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with: 
+         version: latest
 
       - name: Build docker image
         run: docker build -t $image1:latest .
