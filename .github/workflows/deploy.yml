@@ -19,6 +19,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: unit test
+        run: |
+          go test ./...
+
+      - name: run go vet
+        run: go vet ./...
+
+      - name: run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+         version: latest
+
       - name: Build docker image
         run: docker build -t $image1:latest .
 
